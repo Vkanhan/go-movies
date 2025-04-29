@@ -1,13 +1,13 @@
-package api
+package main
 
 import (
 	"net/http"
 
-
+	"github.com/go-chi/chi"
 )
 
 func (app *application) routes() http.Handler {
-	router := http.NewServeMux()
+	router := chi.NewRouter()
 
 	router.HandleFunc("/v1/healthcheck", app.healthcheck)
 	router.HandleFunc("/v1/movies", app.createMovie)

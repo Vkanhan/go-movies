@@ -1,4 +1,4 @@
-package api
+package main
 
 import (
 	"flag"
@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const version = 1 
+const version = "1"
 
 type config struct {
 	port int 
@@ -40,7 +40,7 @@ func main() {
 
 	server := &http.Server{
 		Addr: fmt.Sprintf(":%d", cfg.port),
-		Handler: mux, 
+		Handler: app.routes(), 
 		IdleTimeout: time.Minute,
 		ReadTimeout: 10 * time.Second,
 		WriteTimeout: 30 * time.Second,
