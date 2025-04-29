@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"flag"
@@ -36,7 +36,7 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/v1/healthcheck", app.healthcheckHandler)
+	mux.HandleFunc("/v1/healthcheck", app.healthcheck)
 
 	server := &http.Server{
 		Addr: fmt.Sprintf(":%d", cfg.port),
@@ -46,13 +46,8 @@ func main() {
 		WriteTimeout: 30 * time.Second,
 	}
 
-	logger.Printf("starting %s server on %s:", cfg.env, cfg.port)
+	logger.Printf("starting %s server on %d:", cfg.env, cfg.port)
 	err := server.ListenAndServe()
 	logger.Fatal(err)
 }
 
-func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "status available")
-	fmt.Fprintf(w, "env: %s\n", app.config.env)
-	fmt.Fprintf(w, "version: %s\n", version)
-}
